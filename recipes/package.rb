@@ -19,8 +19,9 @@
 
 case node['platform_family']
 when "debian"
-  package "daemontools-run" do
-    action :install
+  packages = [node['daemontools']['package_name'] || "daemontools-run"].flatten
+  packages.each do |package_name|
+    package(package_name)
   end
 else
   Chef::Log.info "Attempting package installation method of daemontools in #{cookbook_name}::#{recipe_name}."

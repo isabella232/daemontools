@@ -23,7 +23,12 @@ default['daemontools']['install_method'] = "source"
 
 case node['platform']
 when "ubuntu"
-  if node['platform_version'].to_f >= 9.04
+  if node['platform_version'].to_f >= 12.04
+    default['daemontools']['bin_dir'] = "/usr/bin"
+    default['daemontools']['service_dir'] = "/etc/service"
+    default['daemontools']['install_method'] = "package"
+    default['daemontools']['package_name'] = ['daemontools', 'runit']
+  elsif node['platform_version'].to_f >= 9.04
     default['daemontools']['bin_dir'] = "/usr/bin"
     default['daemontools']['service_dir'] = "/etc/service"
     default['daemontools']['install_method'] = "package"

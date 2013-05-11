@@ -31,11 +31,12 @@
 actions :start, :stop, :status, :restart, :up, :down, :once, :pause, :cont, :hup, :alrm, :int, :term, :kill, :enable, :disable
 
 attribute :service_name, :name_attribute => true
-attribute :directory, :kind_of => String, :required => true
-attribute :template, :kind_of => [String, FalseClass], :default => :service_name
+attribute :directory, :kind_of => String
+attribute :template, :kind_of => [String, FalseClass]
 attribute :cookbook, :kind_of => String
 attribute :enabled, :default => false
 attribute :running, :default => false
+attribute :restart_on_change, :kind_of => [TrueClass, FalseClass], :default => true
 attribute :variables, :kind_of => Hash, :default => {}
 attribute :owner, :regex => Chef::Config['user_valid_regex']
 attribute :group, :regex => Chef::Config['group_valid_regex']
@@ -46,4 +47,25 @@ attribute :env, :kind_of => Hash, :default => {}
 def initialize(*args)
   super
   @action = :start
+end
+
+def directory(arg = nil)
+  result = set_or_return(
+    :directory,
+    arg,
+    :kind_of => [String]
+  )
+  result ||= "#{node['daemontools']['service_dir']}/#{service_name}"
+end
+
+def template(arg = nil)
+  result = set_or_return(
+    :template,
+    arg,
+    :kind_of => [String, FalseClass]
+  )
+  if result.nil?
+    result = "#{node['daemontools']['service_dir']}/#{service_name}"
+  end
+  result
 end

@@ -27,20 +27,10 @@ def load_current_resource
 
   Chef::Log.debug("Checking status of service #{new_resource.service_name}")
 
-  begin
-    if run_command_with_systems_locale(:command => "svok #{new_resource.directory}") == 0
-      @svc.running(true)
-    end
-  rescue Chef::Exceptions::Exec
-    @svc.running(false)
-    nil
-  end
+  result = `svok "#{new_resource.directory}" 2>&1`
+  @svc.running(result =~ /: up /)
 
-  if ::File.symlink?("#{node['daemontools']['service_dir']}/#{new_resource.service_name}") && ::File.exists?("#{node['daemontools']['service_dir']}/#{new_resource.service_name}/run")
-    @svc.enabled(true)
-  else
-    @svc.enabled(false)
-  end
+  @svc.enabled(!::File.exist?("#{new_resource.directory}/down"))
 end
 
 action :enable do

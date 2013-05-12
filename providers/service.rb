@@ -27,7 +27,7 @@ def load_current_resource
 
   Chef::Log.debug("Checking status of service #{new_resource.service_name}")
 
-  result = `svok "#{new_resource.directory}" 2>&1`
+  result = `svstat "#{new_resource.directory}" 2>&1`
   @svc.running(result =~ /: up /)
 
   @svc.enabled(!::File.exist?("#{new_resource.directory}/down"))

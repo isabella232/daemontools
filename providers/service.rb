@@ -121,7 +121,7 @@ end
 
 action :start do
   unless @svc.running
-    execute("svc -u #{new_resource.service_name}").run_action(:run)
+    execute("svc -u #{new_resource.directory}").run_action(:run)
     new_resource.updated_by_last_action(true)
   end
 end
@@ -140,77 +140,77 @@ end
 
 action :stop do
   if @svc.running
-    execute("svc -p #{node['daemontools']['service_dir']}/#{new_resource.service_name}").run_action(:run)
+    execute("svc -d #{new_resource.directory}").run_action(:run)
     new_resource.updated_by_last_action(true)
   end
 end
 
 action :restart do
   if @svc.running
-    execute("svc -t #{node['daemontools']['service_dir']}/#{new_resource.service_name}").run_action(:run)
+    execute("svc -t #{new_resource.directory}").run_action(:run)
     new_resource.updated_by_last_action(true)
   end
 end
 
 action :up do
   if @svc.running
-    execute("svc -u #{node['daemontools']['service_dir']}/#{new_resource.service_name}").run_action(:run)
+    execute("svc -u #{new_resource.directory}").run_action(:run)
     new_resource.updated_by_last_action(true)
   end
 end
 
 action :once do
   if @svc.running
-    execute("svc -o #{node['daemontools']['service_dir']}/#{new_resource.service_name}").run_action(:run)
+    execute("svc -o #{new_resource.directory}").run_action(:run)
     new_resource.updated_by_last_action(true)
   end
 end
 
 action :pause do
   if @svc.running
-    execute("svc -p #{node['daemontools']['service_dir']}/#{new_resource.service_name}").run_action(:run)
+    execute("svc -p #{new_resource.directory}").run_action(:run)
     new_resource.updated_by_last_action(true)
   end
 end
 
 action :cont do
   if @svc.running
-    execute("svc -c #{node['daemontools']['service_dir']}/#{new_resource.service_name}").run_action(:run)
+    execute("svc -c #{new_resource.directory}").run_action(:run)
     new_resource.updated_by_last_action(true)
   end
 end
 
 action :hup do
   if @svc.running
-    execute("svc -h #{node['daemontools']['service_dir']}/#{new_resource.service_name}").run_action(:run)
+    execute("svc -h #{new_resource.directory}").run_action(:run)
     new_resource.updated_by_last_action(true)
   end
 end
 
 action :alrm do
   if @svc.running
-    execute("svc -a #{node['daemontools']['service_dir']}/#{new_resource.service_name}").run_action(:run)
+    execute("svc -a #{new_resource.directory}").run_action(:run)
     new_resource.updated_by_last_action(true)
   end
 end
 
 action :int do
   if @svc.running
-    execute("svc -i #{node['daemontools']['service_dir']}/#{new_resource.service_name}").run_action(:run)
+    execute("svc -i #{new_resource.directory}").run_action(:run)
     new_resource.updated_by_last_action(true)
   end
 end
 
 action :term do
   if @svc.running
-    execute("svc -t #{node['daemontools']['service_dir']}/#{new_resource.service_name}").run_action(:run)
+    execute("svc -t #{new_resource.directory}").run_action(:run)
     new_resource.updated_by_last_action(true)
   end
 end
 
 action :kill do
   if @svc.running
-    execute("svc -k #{node['daemontools']['service_dir']}/#{new_resource.service_name}").run_action(:run)
+    execute("svc -k #{new_resource.directory}").run_action(:run)
     new_resource.updated_by_last_action(true)
   end
 end

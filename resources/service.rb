@@ -65,7 +65,7 @@ def template(arg = nil)
     :kind_of => [String, FalseClass]
   )
   if result.nil?
-    result = "#{node['daemontools']['service_dir']}/#{service_name}"
+    result = service_name
   end
   result
 end
